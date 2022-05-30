@@ -25,10 +25,15 @@ public:
 	Image& operator=(const Image& other);
 	virtual ~Image();
 
-	virtual void load(istream& in) = 0;
+	const char* getFilePath() const;
+	const char* getFileName() const;
+	void printFileName() const;
+
+
+	virtual void load(istream& in) const = 0;
 	//virtual void close(fstream& file) = 0;
-	virtual void save(ostream& out) = 0;
-	virtual void saveAs(const char* location) = 0;
+	virtual void save(ostream& out) const = 0;
+	virtual void saveAs(const char* location) const = 0;
 
 	virtual void grayscale() = 0;
 	virtual void monochrome() = 0;

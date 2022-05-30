@@ -31,6 +31,13 @@ void Image::copy(const Image& other) {
 	mMaxVal = other.mMaxVal;
 }
 
+Image::Image(const char* filePath = "", const char* magicNum = "", const char* comment = "", unsigned int rows = 0, unsigned int cols = 0, unsigned int maxVal = 0)
+: mRows(rows), mCols(cols), mMaxVal(maxVal) {
+	setFilePath(filePath);
+	setMagicNumber(magicNum);
+	setComment(comment);
+}
+
 Image::Image(const Image& other) {
 	copy(other);
 }
