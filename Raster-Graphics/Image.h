@@ -14,13 +14,13 @@ protected:
 	char* mComment;
 	unsigned int mRows;
 	unsigned int mCols;
-	unsigned int mMaxVal; //max color 255
+	unsigned int mMaxColorVal; //max color 255
 public:
 	void setFilePath(const char* filePath);
 	void setMagicNumber(const char* magicNum);
 	void setComment(const char* comment);
 
-	Image(const char* filePath, const char* magicNum, const char* comment, unsigned int rows, unsigned int cols, unsigned int maxVal);
+	Image(const char* filePath = "", const char* magicNum = "", const char* comment = "", unsigned int rows = 0, unsigned int cols = 0, unsigned int maxColorVal = 0);
 	Image(const Image& other);
 	Image& operator=(const Image& other);
 	virtual ~Image();
@@ -28,7 +28,6 @@ public:
 	const char* getFilePath() const;
 	const char* getFileName() const;
 	void printFileName() const;
-
 
 	virtual void load(istream& in) const = 0;
 	//virtual void close(fstream& file) = 0;
