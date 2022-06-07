@@ -107,3 +107,4 @@ const char* Image::getFileName() const {
 void Image::printFileName() const {
 	cout << getFileName();
 }
+

@@ -46,3 +46,44 @@ PBM::~PBM() {
 	free();
 }
 
+void PBM::load(istream& in) {
+	in.getline(mMagicNum, strlen(mMagicNum), '\n');
+	if (mMagicNum[0] != 'P') {
+		cout << "Invalid file format!";
+	}
+
+	in.getline(mComment, strlen(mComment), '\n');
+	in >> mCols;
+	in >> mRows;
+	in >> mMaxColorVal;
+
+	for (unsigned int rows = 0; rows < mRows; rows++){
+		for (unsigned int cols = 0; cols < mCols; cols++) {
+			if (in.good()) {
+				in >> mPixels[rows][cols];
+			}
+		}
+	}
+}
+
+void PBM::save(ostream& out) const {
+	out << mMagicNum << endl;
+	out << mComment << endl;
+	out << mCols << ' ' << mRows << endl;
+	out << mMaxColorVal << endl;
+
+	for (unsigned int rows = 0; rows < mRows; rows++) {
+		for (unsigned int cols = 0; cols < mCols; cols++) {
+			if (out.good()) {
+				if (cols == mCols - 1) {
+					out << mPixels[rows][cols] << ' ';
+				}
+				else {
+					out << mPixels[rows][cols];
+				}
+			}
+		}
+	}
+
+}
+

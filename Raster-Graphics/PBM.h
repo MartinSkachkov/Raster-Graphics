@@ -3,6 +3,10 @@
 #include "Image.h"
 
 //0 signifies a white pixel, and a 1 signifies a black pixel
+// P1
+// #comment
+// cols rows
+// maxVal = 1
 //0 0 1 
 //1 0 1 
 //0 1 0 
@@ -18,7 +22,7 @@ public:
 	PBM& operator=(const PBM& other);
 	~PBM();
 
-	virtual void load(istream& in) const override;
+	virtual void load(istream& in) override;
 	//virtual void close(fstream& file) override;
 	virtual void save(ostream& out) const override;
 	virtual void saveAs(const char* location) const override;
