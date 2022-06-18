@@ -1,13 +1,13 @@
-#include "PBM.h"
+#include "PGM.h"
 
-void PBM::free() {
+void PGM::free() {
 	for (unsigned int i = 0; i < mRows; i++) {
 		delete[] mPixels[i];
 	}
 	delete[] mPixels;
 }
 
-void PBM::copy(const PBM& other) {
+void PGM::copy(const PGM& other) {
 	mPixels = new int* [other.mRows];
 	for (size_t i = 0; i < other.mRows; i++) {
 		mPixels[i] = new int[other.mCols];
@@ -20,7 +20,7 @@ void PBM::copy(const PBM& other) {
 	}
 }
 
-PBM::PBM(const char* filePath, const char* magicNum, const char* comment, unsigned int rows, unsigned int cols, unsigned int maxColorVal)
+PGM::PGM(const char* filePath, const char* magicNum, const char* comment, unsigned int rows, unsigned int cols, unsigned int maxColorVal)
 	: Image(filePath, magicNum, comment, rows, cols, maxColorVal) {
 	mPixels = new int* [mRows];
 	for (size_t i = 0; i < mRows; i++) {
@@ -28,11 +28,11 @@ PBM::PBM(const char* filePath, const char* magicNum, const char* comment, unsign
 	}
 }
 
-PBM::PBM(const PBM& other) : Image(other) {
+PGM::PGM(const PGM& other) : Image(other) {
 	copy(other);
 }
 
-PBM& PBM::operator=(const PBM& other) {
+PGM& PGM::operator=(const PGM& other) {
 	if (this == &other) {
 		return *this;
 	}
@@ -42,20 +42,21 @@ PBM& PBM::operator=(const PBM& other) {
 	return *this;
 }
 
-PBM::~PBM() {
+PGM::~PGM() {
 	free();
 }
 
-void PBM::load(istream& in) {
+void PGM::load(istream& in) {
 	in.getline(mMagicNum, strlen(mMagicNum), '\n');
 	if (mMagicNum[0] != 'P') {
-		cout << "Invalid file format!"; //throw
+		cout << "Invalid file format!";
 	}
 
 	in.getline(mComment, strlen(mComment), '.');
 	in >> mCols;
 	in >> mRows;
 	in >> mMaxColorVal;
+
 
 	for (unsigned int rows = 0; rows < mRows; rows++) {
 		for (unsigned int cols = 0; cols < mCols; cols++) {
@@ -66,7 +67,7 @@ void PBM::load(istream& in) {
 	}
 }
 
-void PBM::save(ostream& out) const {
+void PGM::save(ostream& out) const {
 	out << mMagicNum << endl;
 	out << mComment << endl;
 	out << mCols << ' ' << mRows << endl;
@@ -86,7 +87,8 @@ void PBM::save(ostream& out) const {
 	}
 }
 
-void PBM::saveAs(const char* direction) const {
+
+void PGM::saveAs(const char* direction) const {
 	ofstream fileOut(direction);
 	if (!fileOut.is_open()) {
 		throw "Couldn't open the file!";
@@ -95,7 +97,42 @@ void PBM::saveAs(const char* direction) const {
 	fileOut.close();
 }
 
-void PBM::negative() {
+void PGM::monochrome() {
+//https://www.dynamsoft.com/blog/insights/image-processing/image-processing-101-color-space-conversion/
+	//used the information above
+
+	unsigned int threshold = Threshold();
+	// If the intensity level of a pixel is smaller than the threshold, 
+	//the pixel is set to black (grayscale = 0). Otherwise, it is set to white (grayscale = 255).
+
+	unsigned int black = 0;
+	for (unsigned int rows = 0; rows < mRows; rows++) {
+		for (unsigned int cols = 0; cols < mCols; cols++) {
+			if (unsigned(mPixels[rows][cols]) < threshold) {
+				mPixels[rows][cols] = black;
+			}
+			else if (unsigned(mPixels[rows][cols]) >= threshold) {
+				mPixels[rows][cols] = mMaxColorVal;
+			}
+		}
+	}
+}
+
+unsigned int PGM::Threshold() const {
+	//https://datacarpentry.org/image-processing/07-thresholding/
+	//https://tutorialbit.com/digital-image-processing/single-value-threshold-from-image-histogram-image-segmentation/
+	unsigned int sum = 0;
+	for (size_t rows = 0; rows < mRows; rows++) {
+		for (size_t cols = 0; cols < mCols; cols++) {
+			sum += mPixels[rows][cols];
+		}
+	}
+
+	unsigned int threshold = sum / (mRows * mCols);
+	return threshold;
+}
+
+void PGM::negative() {
 	//the image is loaded
 	//formula: new_intensity = max_intensity - old_intensity.
 	for (size_t rows = 0; rows < mRows; rows++) {
@@ -105,7 +142,7 @@ void PBM::negative() {
 	}
 }
 
-void PBM::rotate(const char* direction) {
+void PGM::rotate(const char* direction) {
 	//rotation of a matrix
 	if (strcmp(direction, "right") == 0) {
 		RightRotation();
@@ -124,7 +161,7 @@ void PBM::rotate(const char* direction) {
 	}
 }
 
-void PBM::RightRotation() {
+void PGM::RightRotation() {
 	//allocate memory for the the new Image
 	int** newImage = new int* [mCols];
 	for (size_t rows = 0; rows < mCols; rows++) {
@@ -162,18 +199,13 @@ void PBM::RightRotation() {
 	mPixels = newImage;
 }
 
-void PBM::collage(const char* orientation) {
-
+void PGM::collage(const char* orientation) {
+	//todo
 }
 
-Image* PBM::clone() const {
-	return new PBM(*this);
+Image* PGM::clone() const {
+	return new PGM(*this);
 }
 
-
-//functions that need to be overriden so that we can create an object of type PBM
-void PBM::grayscale() {
-}
-
-void PBM::monochrome() {
+void PGM::grayscale() {
 }

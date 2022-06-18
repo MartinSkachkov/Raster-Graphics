@@ -1,6 +1,7 @@
 #ifndef __IMAGE_H_
 #define __IMAGE_H_
 #include <iostream>
+#include <fstream>
 using namespace std;
 
 //abstract class - template for an Image
@@ -9,14 +10,14 @@ private:
 	void free();
 	void copy(const Image& other);
 protected:
-	char* mFilePath;
+	static char* mFilePath;
 	char* mMagicNum;
 	char* mComment;
 	unsigned int mRows;
 	unsigned int mCols;
 	unsigned int mMaxColorVal; //max color 255
 public:
-	void setFilePath(const char* filePath);
+	static void setFilePath(const char* filePath);
 	void setMagicNumber(const char* magicNum);
 	void setComment(const char* comment);
 
@@ -30,7 +31,6 @@ public:
 	void printFileName() const;
 
 	virtual void load(istream& in) = 0;
-	//virtual void close(fstream& file) = 0;
 	virtual void save(ostream& out) const = 0;
 	virtual void saveAs(const char* location) const = 0;
 

@@ -23,15 +23,20 @@ public:
 	~PBM();
 
 	virtual void load(istream& in) override;
-	//virtual void close(fstream& file) override;
 	virtual void save(ostream& out) const override;
 	virtual void saveAs(const char* location) const override;
 
-	virtual void negative() = 0;
-	virtual void rotate(const char* direction) = 0;
-	virtual void collage(const char* orientation) = 0; //?
+	virtual void negative() override;
+	virtual void rotate(const char* direction) override;
+	virtual void collage(const char* orientation) override; //todo
 
 	virtual Image* clone() const override;
+
+private:
+	void RightRotation(); //possible error
+	//functions that are just needed to be able to create an object
+	virtual void grayscale() override;
+	virtual void monochrome() override;
 };
 
 #endif
