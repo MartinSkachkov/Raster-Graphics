@@ -18,7 +18,6 @@ public:
 	virtual void save(ostream& out) const override;
 	virtual void saveAs(const char* location)const override;
 
-
 	virtual void monochrome() override;
 	virtual void grayscale() override;
 	virtual void negative() override;

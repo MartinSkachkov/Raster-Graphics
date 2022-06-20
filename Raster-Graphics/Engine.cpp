@@ -1,11 +1,28 @@
 #include "Engine.h"
 #include "Console.h"
-#include command..
+#include "Load.h"
+#include "Close.h"
+#include "Save.h"
+#include "SaveAs.h"
+#include "Help.h"
+#include "Exit.h"
+#include "Grayscale.h"
+#include "Monochrome.h"
+#include "Negative.h"
+#include "Rotate.h"
 #include <string>
-#define MAX_INPUT 20
 
 Engine::Engine() {
-	mCommand.addCommand();
+	mCommand.addCommand(new Load(mReceiver));
+	mCommand.addCommand(new Close(mReceiver));
+	mCommand.addCommand(new Save(mReceiver));
+	mCommand.addCommand(new SaveAs(mReceiver));
+	mCommand.addCommand(new Help(mReceiver));
+	mCommand.addCommand(new Exit(mReceiver));
+	mCommand.addCommand(new Grayscale(mReceiver));
+	mCommand.addCommand(new Monochrome(mReceiver));
+	mCommand.addCommand(new Negative(mReceiver));
+	mCommand.addCommand(new Rotate(mReceiver));
 }
 
 void Engine::run() const {
@@ -19,10 +36,10 @@ void Engine::run() const {
 	Console console;
 	console.RenderConsole();
 
-	char input[MAX_INPUT];
+	string input;
 	while (true) {
 		cout << ">";
-		cin.getline(input, MAX_INPUT);
+		getline(cin, input);
 
 	#ifdef _WIN32
 			system("cls");

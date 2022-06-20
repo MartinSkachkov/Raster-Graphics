@@ -5,7 +5,7 @@ using namespace std;
 
 struct Console {
 	void RenderConsole() const;
-	void RenderHelp() const;
+	static void RenderHelp();
 };
 
 #endif

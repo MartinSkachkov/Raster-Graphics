@@ -1,5 +1,6 @@
 #ifndef __RECEIVER_H_
 #define __RECEIVER_H_
+#include "Console.h"
 
 class Receiver {
 public:
@@ -14,6 +15,7 @@ public:
 	void Monochrome();
 	void Negative();
 	void Rotate();
+	void Collage();
 };
 
 #endif

@@ -5,7 +5,7 @@ void Console::RenderConsole() const{
 	cout << "Type help for more information" << endl;
 }
 
-void Console::RenderHelp() const {
+void Console::RenderHelp() {
 	cout << "===== Information =====" << endl;
 	cout << "The following commands are supported:" << endl;
 	cout << "open <file_path> -> opens <file>" << endl;
